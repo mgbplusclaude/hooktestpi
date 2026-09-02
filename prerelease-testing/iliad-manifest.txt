@@ -1,0 +1,5 @@
+data/tlg0012/__cts__.xml
+data/tlg0012/tlg001/__cts__.xml
+data/tlg0012/tlg001/tlg0012.tlg001.perseus-eng3.xml
+data/tlg0012/tlg001/tlg0012.tlg001.perseus-eng4.xml
+data/tlg0012/tlg001/tlg0012.tlg001.perseus-grc2.xml

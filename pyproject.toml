@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hooktestpi"
+version = "1.0.0"
+description = "CapiTainS/CTS corpus validation for TEI digital editions, running on Python 3.14 without Java"
+readme = "README.md"
+requires-python = ">=3.14"
+license = "MPL-2.0 AND MIT"
+license-files = ["LICENSE", "LICENSE.MPL-2.0"]
+authors = [
+    { name = "Mark G. Bilby" },
+]
+maintainers = [
+    { name = "Mark G. Bilby" },
+]
+keywords = [
+    "CapiTainS", "CTS", "TEI", "EpiDoc", "XML", "RelaxNG",
+    "Perseus", "Patristic Text Archive", "digital humanities",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Text Processing :: Markup :: XML",
+    "Topic :: Text Processing :: General",
+]
+dependencies = [
+    "MyCapytain>=3.0.0",
+    "lxml>=5.0",
+    "requests>=2.31",
+    "jingtrang>=0.1.1",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0", "pytest-cov>=5.0"]
+
+[project.urls]
+Homepage = "https://github.com/mgbplusclaude/hooktestpi"
+Repository = "https://github.com/mgbplusclaude/hooktestpi"
+Issues = "https://github.com/mgbplusclaude/hooktestpi/issues"
+"Upstream (HookTest)" = "https://pypi.org/project/HookTest/"
+
+[project.scripts]
+hooktestpi = "hooktestpi.cli:cmd"
+"hooktestpi-build" = "hooktestpi.cli:cmd_build"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# The suite imports shared fixtures as ``tests.conftest``. Without the
+# repository root on sys.path that only works through ``python -m pytest``,
+# which silently puts the cwd there; a bare ``pytest`` (what CI runs) fails
+# at collection.
+pythonpath = ["."]
+filterwarnings = ["ignore::SyntaxWarning"]

@@ -1,0 +1,203 @@
+From 1774998e8a13bae18f6a206f2e4bd6541d776b17 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 1 Sep 2026 00:49:29 +0000
+Subject: [PATCH 1/2] Resolve XML-syntax data/value type names against the
+ in-scope datatypeLibrary
+
+<data type="token"> was mapped to the RELAX NG built-in token datatype
+regardless of the inherited datatypeLibrary, so schemas declaring the XSD
+library (TEI P5 among them) were rejected with "relaxng built-in datatype
+supports no parameters" when the type carried facet params. Bare
+'string'/'token' now name the built-ins only under the empty library.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Ptr1NCwEcuui4Jqaex1ffY
+---
+ relaxng-syntax/src/xml.rs | 91 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 81 insertions(+), 10 deletions(-)
+
+diff --git a/relaxng-syntax/src/xml.rs b/relaxng-syntax/src/xml.rs
+index 95dba94..bd78287 100644
+--- a/relaxng-syntax/src/xml.rs
++++ b/relaxng-syntax/src/xml.rs
+@@ -509,12 +509,16 @@ fn value(node: Node) -> Result<DatatypeValuePattern> {
+         .collect();
+     Ok(DatatypeValuePattern(
+         node.range(),
+-        type_name.map(|name| {
+-            DatatypeName::NamespacedName(NamespacedName {
+-                namespace_uri: datatype_ns,
+-                localname: name,
+-            })
+-        }),
++        type_name.map(
++            |name| match (&datatype_ns.as_string_value()[..], &name.1[..]) {
++                ("", "string") => DatatypeName::String,
++                ("", "token") => DatatypeName::Token,
++                _ => DatatypeName::NamespacedName(NamespacedName {
++                    namespace_uri: datatype_ns,
++                    localname: name,
++                }),
++            },
++        ),
+         val,
+         ns,
+         ns_bindings,
+@@ -528,10 +532,12 @@ fn data(node: Node) -> Result<DatatypeNamePattern> {
+     let type_attr = node
+         .attribute_node("type")
+         .ok_or(Error::Expected(node.range(), "type attribute"))?;
+-    let type_name = match type_attr.value().trim() {
+-        // TODO: check datatypeLibrary namespace!
+-        "token" => DatatypeName::Token,
+-        val => {
++    // 'string' and 'token' name the built-in datatypes only under the empty
++    // datatypeLibrary; under any other library they are that library's types.
++    let type_name = match (&datatype_ns.as_string_value()[..], type_attr.value().trim()) {
++        ("", "string") => DatatypeName::String,
++        ("", "token") => DatatypeName::Token,
++        (_, val) => {
+             let name = ncname(type_attr.range_value(), val)?;
+             DatatypeName::NamespacedName(NamespacedName {
+                 namespace_uri: datatype_ns,
+@@ -1187,6 +1193,71 @@ mod tests {
+     use crate::types::*;
+     use assert_matches::*;
+ 
++    const XSD: &str = "http://www.w3.org/2001/XMLSchema-datatypes";
++
++    fn parse_pattern(xml: &str) -> Pattern {
++        let doc = roxmltree::Document::parse(xml).expect("Parsing XML");
++        super::pattern(doc.root_element()).unwrap()
++    }
++
++    #[test]
++    fn data_token_resolves_against_inherited_datatype_library() {
++        let pat = parse_pattern(&format!(
++            "<element xmlns=\"http://relaxng.org/ns/structure/1.0\" \
++                      datatypeLibrary=\"{XSD}\" name=\"d\">\
++               <data type=\"token\"><param name=\"pattern\">[a-z]+</param></data>\
++             </element>"
++        ));
++        let Pattern::Element(el) = pat else {
++            panic!("Expected an <element>")
++        };
++        assert_matches!(
++            *el.pattern,
++            Pattern::DatatypeName(DatatypeNamePattern(
++                _,
++                DatatypeName::NamespacedName(NamespacedName { ref namespace_uri, .. }),
++                Some(_),
++                _,
++            )) if namespace_uri.as_string_value() == XSD
++        );
++    }
++
++    #[test]
++    fn data_token_is_builtin_without_datatype_library() {
++        let pat =
++            parse_pattern("<data xmlns=\"http://relaxng.org/ns/structure/1.0\" type=\"token\"/>");
++        assert_matches!(
++            pat,
++            Pattern::DatatypeName(DatatypeNamePattern(_, DatatypeName::Token, Some(ref p), _)) if p.is_empty()
++        );
++    }
++
++    #[test]
++    fn data_string_is_builtin_without_datatype_library() {
++        let pat =
++            parse_pattern("<data xmlns=\"http://relaxng.org/ns/structure/1.0\" type=\"string\"/>");
++        assert_matches!(
++            pat,
++            Pattern::DatatypeName(DatatypeNamePattern(_, DatatypeName::String, Some(ref p), _)) if p.is_empty()
++        );
++    }
++
++    #[test]
++    fn value_token_resolves_against_inherited_datatype_library() {
++        let pat = parse_pattern(&format!(
++            "<value xmlns=\"http://relaxng.org/ns/structure/1.0\" \
++                    datatypeLibrary=\"{XSD}\" type=\"token\">x</value>"
++        ));
++        assert_matches!(
++            pat,
++            Pattern::DatatypeValue(DatatypeValuePattern(
++                _,
++                Some(DatatypeName::NamespacedName(NamespacedName { ref namespace_uri, .. })),
++                ..
++            )) if namespace_uri.as_string_value() == XSD
++        );
++    }
++
+     #[test]
+     fn it_works() {
+         let doc = roxmltree::Document::parse(
+-- 
+2.43.0
+
+
+From 0cd36a60df90cf3b6bff37ecee33b877c2044cb9 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 1 Sep 2026 00:49:29 +0000
+Subject: [PATCH 2/2] Accept the full XSD 1.0 lexical space for xsd:anyURI
+
+anyURI values were parsed as RFC 3986 URI references, rejecting values
+with spaces or non-ASCII characters. XSD 1.0 only requires validity
+after XLink-style %-escaping, so any finite string is lexically valid;
+Jing accepts accordingly (TEI who="..." attributes rely on this).
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Ptr1NCwEcuui4Jqaex1ffY
+---
+ relaxng-model/src/datatype/xsd.rs | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/relaxng-model/src/datatype/xsd.rs b/relaxng-model/src/datatype/xsd.rs
+index f4cca42..4f1f83d 100644
+--- a/relaxng-model/src/datatype/xsd.rs
++++ b/relaxng-model/src/datatype/xsd.rs
+@@ -3,7 +3,6 @@ use crate::datatype::relax::normalize_whitespace;
+ use lazy_static::lazy_static;
+ use relaxng_syntax::types;
+ use relaxng_syntax::types::DatatypeName;
+-use std::convert::TryFrom;
+ use std::fmt;
+ use std::str::FromStr;
+ 
+@@ -340,7 +339,10 @@ impl super::Datatype for XsdDatatypes {
+                     && patt.as_ref().map(|p| p.1.is_match(value)).unwrap_or(true)
+             }
+             XsdDatatypes::AnyURI(str_facets) => {
+-                uriparse::URIReference::try_from(value).is_ok() && str_facets.is_valid(value)
++                // XSD 1.0 anyURI only requires a valid URI reference after
++                // XLink-style %-escaping, so any finite string is lexically
++                // valid; Jing accepts accordingly.
++                str_facets.is_valid(value)
+             }
+             XsdDatatypes::Language(str_facets) => {
+                 LANG_RE.is_match(value) && str_facets.is_valid(value)
+@@ -2355,6 +2357,21 @@ mod test {
+     use codemap::CodeMap;
+     use relaxng_syntax::types;
+ 
++    #[test]
++    fn any_uri_accepts_the_full_xsd_lexical_space() {
++        let mut map = CodeMap::new();
++        let file = map.add_file("main.rnc".to_string(), "just testing".to_string());
++        let ctx = Context::new(file);
++        let c = Compiler;
++        let dt = c.any_uri(&ctx, &[]).unwrap();
++        for value in ["https://example.com/x", "a name with spaces", "100%"] {
++            assert!(
++                crate::datatype::Datatype::is_valid(&dt, value),
++                "anyURI must accept {value:?}"
++            );
++        }
++    }
++
+     #[test]
+     fn it_works() {
+         let mut map = CodeMap::new();
+-- 
+2.43.0
+

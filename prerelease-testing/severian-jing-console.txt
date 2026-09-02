@@ -1,0 +1,82 @@
+>>> Starting tests !
+>>> Project profile : pta
+>>> Files to test : 21
+..
+All Metadata Files Passed
+X..XXXX........X..X
++---------------------------------+-------+-------+-----------------------------+
+|           Identifier            | Words | Nodes |        Failed Tests         |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsAb.xml   | 4,276 |   1   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsBe.xml   | 3,454 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-MsCatCo.xml  |  470  |   2   |                             |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-MsCatJm.xml  |  513  |   2   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-MsCatOx.xml  |  471  |   2   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-MsCatPa.xml  |  480  |   2   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-MsCatVat.xml |  515  |   2   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsHa.xml   | 4,102 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsMa.xml   | 4,656 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsMy.xml   | 4,388 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsPa.xml   | 3,572 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsPb.xml   | 4,477 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsPc.xml   | 4,521 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsPd.xml   | 4,456 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsPt.xml   | 4,405 |   1   |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-MsVa.xml   | 4,531 |   1   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-deuBibex.xml | 4,876 | 3;11  |                             |
++---------------------------------+-------+-------+-----------------------------+
+|   pta0001.pta001.pta-grc1.xml   | 3,881 |  11   |                             |
++---------------------------------+-------+-------+-----------------------------+
+| pta0001.pta001.pta-grcBibex.xml | 4,779 |  11   | Custom local RNG validation |
++---------------------------------+-------+-------+-----------------------------+
+
+DTD errors found:
+	pta0001.pta001.pta-MsAb.xml	 error: value of attribute "place" is invalid; token "overstrike" invalid [In (L1482 C66)],  error: value of attribute "place" is invalid; token "erase" invalid [In (L1728 C46)]
+	pta0001.pta001.pta-MsCatJm.xml	/tmp/claude-0/-home-user-hooktestpi/bc41ba94-cf18-5724-aacf-133d59d8cc43/scratchpad/pta_data/data/pta0001/pta001/pta0001.pta001.pta-MsCatJm.xml:35:45: error: element "msIdentifier" missing required attribute "corresp" [In ]
+	pta0001.pta001.pta-MsCatOx.xml	/tmp/claude-0/-home-user-hooktestpi/bc41ba94-cf18-5724-aacf-133d59d8cc43/scratchpad/pta_data/data/pta0001/pta001/pta0001.pta001.pta-MsCatOx.xml:35:45: error: element "msIdentifier" missing required attribute "corresp" [In ]
+	pta0001.pta001.pta-MsCatPa.xml	/tmp/claude-0/-home-user-hooktestpi/bc41ba94-cf18-5724-aacf-133d59d8cc43/scratchpad/pta_data/data/pta0001/pta001/pta0001.pta001.pta-MsCatPa.xml:35:45: error: element "msIdentifier" missing required attribute "corresp" [In ]
+	pta0001.pta001.pta-MsCatVat.xml	/tmp/claude-0/-home-user-hooktestpi/bc41ba94-cf18-5724-aacf-133d59d8cc43/scratchpad/pta_data/data/pta0001/pta001/pta0001.pta001.pta-MsCatVat.xml:35:46: error: element "msIdentifier" missing required attribute "corresp" [In ]
+	pta0001.pta001.pta-MsVa.xml	 error: value of attribute "place" is invalid; token "overwrite" invalid [In (L1568 C49)]
+	pta0001.pta001.pta-grcBibex.xml	 error: element "witDetail" not allowed anywhere [In (L611 C60); (L652 C62); (L653 C60); (L1199 C43)],  error: value of attribute "type" is invalid [In (L1115 C37); (L1124 C37); (L1164 C37)]
+
+>>> End of the test !
+
++----------------------+--------+
+|   HookTestResults    |        |
++----------------------+--------+
+|       Project        |  pta   |
++----------------------+--------+
+|     Total Texts      |   19   |
++----------------------+--------+
+|    Passing Texts     |   12   |
++----------------------+--------+
+|    Metadata Files    |   2    |
++----------------------+--------+
+|   Passing Metadata   |   2    |
++----------------------+--------+
+|       Coverage       | 97.92  |
++----------------------+--------+
+| Total Citation Units |   57   |
++----------------------+--------+
+|     Total Words      | 62,823 |
++----------------------+--------+
+|     Words in GRC     | 57,947 |
++----------------------+--------+
+|     Words in DEU     | 4,876  |
++----------------------+--------+

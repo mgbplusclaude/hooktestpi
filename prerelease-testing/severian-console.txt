@@ -1,0 +1,91 @@
+>>> Starting tests !
+>>> Project profile : pta
+>>> Files to test : 21
+>>> libxml2 stalled compiling 9e1230361d9ac3168e981da2c494470f.rng (>120s); attempting schema repair
+>>> Schema repaired successfully; using /root/.cache/hooktestpi/schemas/4e6509e10073d816-relaxed.rng
+>>> RelaxNG results for this schema come from a relaxed grammar; they are reported as advisory.
+..
+All Metadata Files Passed
+...................
++---------------------------------+-------+-------+--------------+
+|           Identifier            | Words | Nodes | Failed Tests |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsAb.xml   | 4,276 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsBe.xml   | 3,454 |   1   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-MsCatCo.xml  |  470  |   2   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-MsCatJm.xml  |  513  |   2   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-MsCatOx.xml  |  471  |   2   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-MsCatPa.xml  |  480  |   2   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-MsCatVat.xml |  515  |   2   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsHa.xml   | 4,102 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsMa.xml   | 4,656 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsMy.xml   | 4,388 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsPa.xml   | 3,572 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsPb.xml   | 4,477 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsPc.xml   | 4,521 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsPd.xml   | 4,456 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsPt.xml   | 4,405 |   1   |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-MsVa.xml   | 4,531 |   1   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-deuBibex.xml | 4,876 | 3;11  |              |
++---------------------------------+-------+-------+--------------+
+|   pta0001.pta001.pta-grc1.xml   | 3,881 |  11   |              |
++---------------------------------+-------+-------+--------------+
+| pta0001.pta001.pta-grcBibex.xml | 4,779 |  11   |              |
++---------------------------------+-------+-------+--------------+
+
+DTD errors found:
+	pta0001.pta001.pta-MsAb.xml	(L215 C0) Did not expect element p there, (L198 C0) Element div has extra content: pb, (L193 C0) Did not expect element div there, (L193 C0) Element body failed to validate content, (L192 C0) Element text failed to validate content, (L192 C0) Element TEI failed to validate content
+	pta0001.pta001.pta-MsCatJm.xml	(L37 C0) Expecting element idno, got repository, (L35 C0) Expecting an element altIdentifier, got nothing, (L35 C0) Did not expect element settlement there, (L34 C0) Element msDesc failed to validate content, (L33 C0) Did not expect element msDesc there, (L33 C0) Element sourceDesc failed to validate content
+	pta0001.pta001.pta-MsCatOx.xml	(L37 C0) Expecting element idno, got repository, (L35 C0) Expecting an element altIdentifier, got nothing, (L35 C0) Did not expect element settlement there, (L34 C0) Element msDesc failed to validate content, (L33 C0) Did not expect element msDesc there, (L33 C0) Element sourceDesc failed to validate content
+	pta0001.pta001.pta-MsCatPa.xml	(L37 C0) Expecting element idno, got repository, (L35 C0) Expecting an element altIdentifier, got nothing, (L35 C0) Did not expect element settlement there, (L34 C0) Element msDesc failed to validate content, (L33 C0) Did not expect element msDesc there, (L33 C0) Element sourceDesc failed to validate content
+	pta0001.pta001.pta-MsCatVat.xml	(L37 C0) Expecting element idno, got repository, (L35 C0) Expecting an element altIdentifier, got nothing, (L35 C0) Did not expect element settlement there, (L34 C0) Element msDesc failed to validate content, (L33 C0) Did not expect element msDesc there, (L33 C0) Element sourceDesc failed to validate content
+	pta0001.pta001.pta-MsVa.xml	(L208 C0) Did not expect element p there, (L198 C0) Element div has extra content: pb, (L194 C0) Did not expect element div there, (L194 C0) Element body failed to validate content, (L193 C0) Element text failed to validate content, (L193 C0) Element TEI failed to validate content
+	pta0001.pta001.pta-grcBibex.xml	(L608 C0) Did not expect element lem there, (L513 C0) Element div has extra content: head, (L509 C0) Did not expect element div there, (L509 C0) Element body failed to validate content, (L508 C0) Element text failed to validate content, (L508 C0) Element TEI failed to validate content
+
+>>> End of the test !
+
++----------------------+--------+
+|   HookTestResults    |        |
++----------------------+--------+
+|       Project        |  pta   |
++----------------------+--------+
+|     Total Texts      |   19   |
++----------------------+--------+
+|    Passing Texts     |   19   |
++----------------------+--------+
+|    Metadata Files    |   2    |
++----------------------+--------+
+|   Passing Metadata   |   2    |
++----------------------+--------+
+|       Coverage       | 100.0  |
++----------------------+--------+
+| Total Citation Units |   57   |
++----------------------+--------+
+|     Total Words      | 62,823 |
++----------------------+--------+
+|     Words in GRC     | 57,947 |
++----------------------+--------+
+|     Words in DEU     | 4,876  |
++----------------------+--------+
+>>> Note: libxml2 could not compile a schema used by this corpus, so a relaxed grammar was used.
+>>> Results are advisory: libxml2 also disagrees with the
+>>> reference implementation about element content on these
+>>> grammars, so some reported errors may not be real.
+>>> For reference-grade RelaxNG results install Java and
+>>> run with --rng-backend jing.
