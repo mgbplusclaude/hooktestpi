@@ -18,11 +18,18 @@ import warnings
 from glob import glob
 from multiprocessing.pool import Pool
 
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="MyCapytain.*")
+# Same import guard as hooktestpi.capitains.cts: MyCapytain 3.0.2's regex
+# literals raise SyntaxWarning while the import machinery compiles them, and
+# a module= filter cannot catch those.
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore", SyntaxWarning)
+
+    from MyCapytain.common.constants import Mimetypes  # noqa: E402
+    from MyCapytain.resources.texts.local.capitains.cts import (  # noqa: E402
+        CapitainsCtsText,
+    )
 
 from lxml import etree  # noqa: E402
-from MyCapytain.common.constants import Mimetypes  # noqa: E402
-from MyCapytain.resources.texts.local.capitains.cts import CapitainsCtsText  # noqa: E402
 
 __all__ = ["Build", "CI", "cmd"]
 

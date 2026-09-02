@@ -1,7 +1,5 @@
 """Schema resolution and the validation backends."""
 
-from pathlib import Path
-
 import pytest
 
 from hooktestpi.rng import backends, schemas

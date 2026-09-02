@@ -22,10 +22,8 @@ from multiprocessing.pool import Pool
 from operator import attrgetter
 
 import hooktestpi.capitains.cts
-import hooktestpi.units
 from hooktestpi.console import Table, magenta, white, yellow
 from hooktestpi.projects import get_profile
-from hooktestpi.units import TESTUnit
 
 __all__ = ["Test", "UnitLog", "DefaultFinder", "FilterFinder", "cmd"]
 
@@ -102,20 +100,7 @@ class Test(object):
     FAILURE = "failed"
     ERROR = "error"
     SUCCESS = "success"
-    PENDING = "pending"
-    SCHEMES = {
-        "tei": "tei.rng",
-        "epidoc": "epidoc.rng",
-        "ignore": None,
-        "auto": "auto_rng",
-    }
-    #: Tests whose failure is always fatal for a text.
-    RNG_TESTS = {
-        "Epidoc DTD validation",
-        "TEI DTD Validation",
-        "Automatic RNG validation",
-        "Custom local RNG validation",
-    }
+    SCHEMES = ("tei", "epidoc", "ignore", "auto")
 
     def __init__(
         self,
@@ -139,7 +124,6 @@ class Test(object):
         require_contiguous_divs=False,
         **kwargs,
     ):
-        self.depth = 10
         self.console = console
         self.build_manifest = build_manifest
         self.path = path
@@ -173,7 +157,7 @@ class Test(object):
         ):
             raise ValueError(
                 "Scheme {0} unknown, please use one of the following : {1}".format(
-                    scheme, ", ".join(list(Test.SCHEMES) + ["perseus", "pta"])
+                    scheme, ", ".join(Test.SCHEMES + ("perseus", "pta"))
                 )
             )
 
@@ -668,13 +652,12 @@ class UnitLog(object):
     """The result of testing one file."""
 
     def __init__(self, directory, name, units, coverage, status, testtype=None,
-                 logs=None, sent=False, additional=None):
+                 logs=None, additional=None):
         self.directory = directory
         self.units = units
         self.coverage = coverage
         self.status = status
         self.__logs = list()
-        self.sent = sent
         self.time = time.strftime("%Y-%m-%d %H:%M:%S")
 
         self.name = self.directory_replacer(name)

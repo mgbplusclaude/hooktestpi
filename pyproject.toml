@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hooktestpi"
-version = "1.0.0"
-description = "CapiTainS/CTS corpus validation for TEI digital editions, running on Python 3.14 without Java"
+version = "1.0.1"
+description = "CapiTainS/CTS validation for TEI digital editions, based on MyCapytain, with reference-grade RelaxNG (Jing or relaxng-rust)"
 readme = "README.md"
 requires-python = ">=3.14"
 license = "MPL-2.0 AND MIT"
