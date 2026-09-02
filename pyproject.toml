@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hooktestpi"
-version = "1.0.1"
+version = "1.0.2"
 description = "CapiTainS/CTS validation for TEI digital editions, based on MyCapytain, with reference-grade RelaxNG (Jing or relaxng-rust)"
 readme = "README.md"
 requires-python = ">=3.14"
